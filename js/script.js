@@ -20,15 +20,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    try {
-        let a = await fetch(`${folder}/`);
-        if (!a.ok) throw new Error(`Failed to load ${folder}`);
-        // ... rest of function
-    } catch (error) {
-        console.error("Error loading songs:", error);
-        return [];
-    }
-    let a = await fetch(`${folder}/`);
+    let a = await fetch(`/${folder}/`);
     let response = await a.text();
     let div = document.createElement("div");
     div.innerHTML = response;
@@ -39,7 +31,7 @@ async function getSongs(folder) {
         const element = as[index];
         if (element.href.endsWith(".mp3")) {
             // Get only the file name (with %20 etc.)
-            const fileName = element.href.split(`${folder}/`)[1].toLowerCase();
+            const fileName = element.href.split(`/${folder}/`)[1];
             songs.push(fileName);
         }
     }
@@ -83,7 +75,7 @@ async function getSongs(folder) {
 
 const playMusic = (track, pause = false) => {
     console.log("Trying to play:", track);
-    currentSong.src = `${currFolder}/` + track.toLowerCase();
+    currentSong.src = `/${currFolder}/` + track;
     if (!pause) {
         currentSong.play().catch(e => console.error("Play error:", e));
         play.src = "img/pause.svg";
@@ -96,7 +88,7 @@ async function DisplayAlbums() {
     console.log("Displaying albums...");
 
     // Get the directory listing
-    let a = await fetch(`songs/`);
+    let a = await fetch(`/songs/`);
     let response = await a.text();
 
     // Create a temporary div to parse the HTML
@@ -116,7 +108,7 @@ async function DisplayAlbums() {
 
             try {
                 // Fetch metadata
-                let res = await fetch(`songs/${folder}/info.json`);
+                let res = await fetch(`/songs/${folder}/info.json`);
                 if (!res.ok) {
                     console.warn(`Skipping ${folder}, info.json not found.`);
                     continue;
@@ -131,7 +123,7 @@ async function DisplayAlbums() {
                         <div class="play">
                             <img src="img/playicon.svg" alt="">
                         </div>
-                        <img src="songs/${folder}/cover.jpg" alt="cover">
+                        <img src="/songs/${folder}/cover.jpg" alt="cover">
                         <h2>${info.title}</h2>
                         <p>${info.description}</p>
                     </div>
@@ -153,15 +145,9 @@ async function DisplayAlbums() {
 
 }
 async function main() {
-    try {
-        songs = await getSongs("songs/honey_singh"); // Ensure lowercase
-        if (songs.length > 0) {
-            playMusic(songs[0].toLowerCase(), true); // Force lowercase
-        }
-        await DisplayAlbums();
-    } catch (error) {
-        console.error("Initialization failed:", error);
-    }
+    songs = await getSongs("songs/honey_singh");
+    playMusic(songs[0], true);
+
     // Display all the albums on the page
     DisplayAlbums();
 
