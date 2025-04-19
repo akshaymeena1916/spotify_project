@@ -145,7 +145,7 @@ async function DisplayAlbums() {
 
 }
 async function main() {
-    songs = await getSongs("songs/Honey_singh");
+    songs = await getSongs("songs/honey_singh");
     playMusic(songs[0], true);
 
     // Display all the albums on the page
