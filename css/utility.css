@@ -1,0 +1,49 @@
+.border{
+    border:2px solid red;
+    margin:3px;
+}
+.flex{
+    display:flex;
+}
+.justify-content{
+    justify-content: center;
+}
+.align-items{
+    align-items: center;
+}
+.bg-black{
+    background-color: black;
+    color:white;
+}
+.invert{
+    filter:invert(1);
+}
+.bg-grey{
+   background-color :#121212;
+   color:white;
+}
+.m-1{
+    margin:5px;
+}
+.rounded{
+    border-radius: 7px;
+}
+.p-1{
+    padding:10px;
+}
+/* Scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Or any color you want for track */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(45, 44, 44);  /* Scrollbar color */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Optional for padding */
+  }
+  
